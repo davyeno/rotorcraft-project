@@ -7,6 +7,8 @@ Created on Wed Jul 27 11:28:05 2022
 import pandas as pd
 import matplotlib.pyplot as plt
 import plotly.express as px
+from plotly.subplots import make_subplots
+import plotly.graph_objects as go
 
 def PhysHoverMod(filename): 
 
@@ -241,14 +243,34 @@ def PhysHoverMod(filename):
     
 #Visualizations 
     Hoverdf = pd.DataFrame(arr)
-
-    fig = px.timeline(Hoverdf, x_start="Start", x_end="Finish", 
+    #Gant Chart
+    fig2 = px.timeline(Hoverdf, x_start="Start", x_end="Finish", 
                       y="Maneuver", color="Maneuver")
-    fig.update_layout(title = {'text': filename + ' Hover Maneuver', 'x': 0.5})
     
+    trace1 = go.Scatter(x = df.index,
+        y = df['groundSpeed'], 
+        name = 'Ground Speed')
+
+    trace2 = go.Scatter(x = df.index, 
+        y = df['absoluteAltitude'], 
+        name = 'Absolute Altitude')
+
+
+    fig = make_subplots(rows=2,cols=1,figure=fig2, shared_xaxes=True, 
+                    specs = [[{"secondary_y": False}], [{"secondary_y": True}]])
+    fig.add_trace(trace1, row=2, col=1, secondary_y =False)
+    fig.add_trace(trace2, row=2,col=1, secondary_y = True)
+    fig.update_layout(width=1000,
+                      height=700,
+                      xaxis1_showticklabels=True,
+                      xaxis2_showticklabels=True,
+                     )
+    fig.update_xaxes(title_text="Time")
+    fig.update_yaxes(title_text='''groundSpeed (knot)''',row=2, color = 'Blue', col=1)
+    fig.update_yaxes(title_text='''absoluteAltitude (feet)''',row=2, col=1, color = 'red', secondary_y=True)
     fig.show()
 
-    
+    #Visualization for Map Coordinates 
     fig = px.scatter_mapbox(df, lat = 'latitude', lon = 'longitude', 
                         color = 'LabHoverOrNot', zoom = 15, height = 600)
     fig.update_layout(mapbox_style = "open-street-map")
