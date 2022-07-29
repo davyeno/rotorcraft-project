@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
-"""
-Created on Wed Jul 27 11:28:05 2022
 
-@author: csmit
-"""
+# plotly == 5.9.0
+# matplotlib == 3.5.1
+# pandas == 1.4.2
+
+
 import pandas as pd
 import matplotlib.pyplot as plt
 import plotly.express as px
@@ -14,7 +15,7 @@ def PhysHoverMod(filename):
 
     data=pd.read_csv(filename+'.csv', parse_dates={'datetime':['date','time']}, 
                      index_col = 'datetime', low_memory = False)
-    df = data
+    df = data.copy()
     #df.absoluteAltitude.plot()
     #plt.xlabel('Time')
     #plt.ylabel('Altitude')
@@ -272,7 +273,7 @@ def PhysHoverMod(filename):
 
     #Visualization for Map Coordinates 
     fig = px.scatter_mapbox(df, lat = 'latitude', lon = 'longitude', 
-                        color = 'LabHoverOrNot', zoom = 15, height = 600)
+                        color = 'LabHoverOrNot', text = df.index, zoom = 15, height = 600)
     fig.update_layout(mapbox_style = "open-street-map")
     fig.update_layout(margin = {"r": 0, "t": 30, "l": 0, "b": 0})
     fig.update_layout(title = {'text': "Grid Coordinates of Hover Maneuver",
