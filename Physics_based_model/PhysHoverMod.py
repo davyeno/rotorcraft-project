@@ -40,9 +40,10 @@ def PhysHoverMod(filename):
     HoverULimit = 50
     StatHoverGroundSpeed = 5
     HoverAltInd = 12
+    PedalTurnSpeed = 2
     PedalTurnHeadingInd = 10   
-    TABPInd = 0.00002
-    
+    TABPInd1 = 0.0002
+    TABPInd2 = 0.0006
 #Define a function for each Maneuver    
     def hover(x): 
         if x['absoluteAltitude'] > HoverLLimit and \
@@ -55,7 +56,7 @@ def PhysHoverMod(filename):
     def LTurn(x): 
         if x['absoluteAltitude'] > HoverLLimit and \
             x['absoluteAltitude'] < HoverULimit and \
-            x['groundSpeed'] < 2 and \
+            x['groundSpeed'] < PedalTurnSpeed and \
             x['Altdiff'] < HoverAltInd and \
             x['Altdiff'] > -HoverAltInd and \
             x['turnDirection'] < -PedalTurnHeadingInd: return 1
@@ -64,7 +65,7 @@ def PhysHoverMod(filename):
     def RTurn(x): 
         if x['absoluteAltitude'] > HoverLLimit and \
             x['absoluteAltitude'] < HoverULimit and \
-            x['groundSpeed'] < 2 and \
+            x['groundSpeed'] < PedalTurnSpeed and \
             x['Altdiff'] < HoverAltInd and \
             x['Altdiff'] > -HoverAltInd and \
             x['turnDirection'] > PedalTurnHeadingInd: return 1
@@ -73,30 +74,30 @@ def PhysHoverMod(filename):
     def TABPointCW(x): 
         if x['absoluteAltitude'] > HoverLLimit and \
             x['absoluteAltitude'] < HoverULimit and \
-            x['groundSpeed'] < 5 and \
-            x['groundSpeed'] > 2 and \
+            x['groundSpeed'] < StatHoverGroundSpeed and \
+            x['groundSpeed'] > PedalTurnSpeed and \
             x['Altdiff'] < HoverAltInd and \
             x['Altdiff'] > -HoverAltInd and \
             x['turnDirection'] > 15 and\
-            x['longDiff'] > -0.0006 and \
-            x['longDiff'] < 0.0002 and \
-            x['latDiff'] < 0.0006 and \
-            x['latDiff'] > -0.0006: return 1
+            x['longDiff'] > -TABPInd2 and \
+            x['longDiff'] < TABPInd1 and \
+            x['latDiff'] < TABPInd2 and \
+            x['latDiff'] > -TABPInd2: return 1
         else: return 0
         
       
     def TABPointCCW(x): 
         if x['absoluteAltitude'] > HoverLLimit and \
             x['absoluteAltitude'] < HoverULimit and \
-            x['groundSpeed'] < 5 and \
-            x['groundSpeed'] > 2 and \
+            x['groundSpeed'] < StatHoverGroundSpeed and \
+            x['groundSpeed'] > PedalTurnSpeed and \
             x['Altdiff'] < HoverAltInd and \
             x['Altdiff'] > -HoverAltInd and \
             x['turnDirection'] < -15 and\
-            x['longDiff'] > -0.0006 and \
-            x['longDiff'] < 0.0002 and \
-            x['latDiff'] < 0.0006 and \
-            x['latDiff'] > -0.0006: return 1
+            x['longDiff'] > -TABPInd2 and \
+            x['longDiff'] < TABPInd1 and \
+            x['latDiff'] < TABPInd2 and \
+            x['latDiff'] > -TABPInd2: return 1
         else: return 0
 #Apply Functions to predict Maneuvers    
     df['LabHoverOrNot'] = df.apply(hover, axis = 1)
