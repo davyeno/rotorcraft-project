@@ -10,3 +10,5 @@ This repo contains three approaches and models.
 - Machine Learning Model with Support Vector Machine - 
 
 - LSTM Deep Learning Model - 
+
+- Data: Data for one of the flights(07JUL) is stored in a zipped folder in this repo due to the size of individual data files. 
