@@ -7,8 +7,8 @@ This repo contains three approaches and models.
 
 - Data Analytics Approach - This approach and model uses user defined inputs to essentially manually construct a decision tree. It is easily applicable to any aircraft or environmental condition as it relies on physics to define the maneuver. The downside is the model is reliant on user defined parameters to define each maneuver. 
 
-- Machine Learning Model with Support Vector Machine - 
+- Machine Learning Model with Support Vector Machine - Highest accuracy on Hover Maneuvers with Support Vector Machine. 
 
-- LSTM Deep Learning Model - 
+- LSTM Deep Learning Model - Offers high accuracy with hover maneuvers but needs more data to continue to learn. 
 
 - Data: Data for one of the flights(07JUL) is stored in a zipped folder in this repo due to the size of individual data files. 
